@@ -12,35 +12,31 @@
 
 <body>
     <header class="header">
-        <div class="header__inner">
-            <h1 class="header__title">
-                StackOverflow-lite
-            </h1>
-        </div>
+
+        <h1>
+            StackOverflow-lite
+        </h1>
+
     </header>
 
-    <div>
-        <div>Create your Stack account. It's free and only takes a minute</div>
-        <div class="contianer">
-            <form id="form1" name="" method="" action="">
-                <div>
-                    <label>Dispaly Name</label><br>
-                    <input type="text" name="d-name" placeholder="d.nuwa">
-                </div>
-                <div>
-                    <label>Email</label><br>
-                    <input type="text" name="e-mail" placeholder="you@example.com">
-                </div>
-                <div>
-                    <label>Password</label><br>
-                    <input type="text" name="password">
-                </div>
-                <div>
-                    <button type="submit" name="sign-up" value="">Sign Up</button>
-                </div>
+    <div class="container">
+        <div class="heading">Create your StackOverflow-lite account.</div>
+        <div class="sec-heading"> It's free and only takes a minute</div>
+        <div class="form-body">
+            <form action="">
+                <label for="dname">Dispaly Name</label>
+                <input type="text" id="dname" name="dname" placeholder="Your dispaly name..">
+
+                <label for="email">Email</label>
+                <input type="text" id="email" name="email" placeholder="Your email..">
+
+                <label for="userpassword">Password</label>
+                <input type="text" id="userpassword" name="userpassword" placeholder="********">
+
+                <input type="submit" value="Submit">
             </form>
             <div>
-
+                Already have an account? <a href="login.html">Log In</a>
             </div>
         </div>
 </body>
