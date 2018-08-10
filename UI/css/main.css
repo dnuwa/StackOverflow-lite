@@ -101,3 +101,23 @@ input[type=submit] {
 input[type=submit]:hover {
     background-color: #46c3e9;
 }
+
+.questions-div {
+    width: 70%;
+    /* border: solid; */
+    margin: auto;
+    text-align: left;
+}
+
+.qn-heading {
+    font-weight: bold;
+    font-size: 150%;
+    padding: 1% 0% 1% 2%;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
