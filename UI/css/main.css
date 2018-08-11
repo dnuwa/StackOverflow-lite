@@ -75,7 +75,9 @@ a {
     font-family: courier;
 }
 
-input[type=text] {
+input[type=text],
+input[type=email],
+input[type=password] {
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -105,8 +107,10 @@ input[type=submit]:hover {
 .questions-div {
     width: 70%;
     /* border: solid; */
-    margin: auto;
+    /* margin-right: 2%; */
     text-align: left;
+    float: right;
+    padding-right: 2%;
 }
 
 .qn-heading {
@@ -127,3 +131,11 @@ hr {
     font-size: 120%;
     padding: 1% 0% 1% 2%;
 }
+
+
+/* .user-profile {
+    width: 25%;
+    padding-right: 2%;
+    border: solid;
+    height: 5%;
+} */
