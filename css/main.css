@@ -132,13 +132,14 @@ hr {
     text-align: inherit;
     padding: 2%;
     background-color: #f2f2f2;
-    ;
+    margin-left: 5%;
 }
 
 .questions-div {
-    width: 75%;
+    width: 65%;
     text-align: left;
     /* border: solid; */
+    margin-right: 6%;
 }
 
 .qn-heading {
@@ -150,7 +151,8 @@ hr {
 .question-content {
     display: flex;
     flex-direction: column;
-    width: 75%;
+    width: 65%;
+    margin-right: 5%;
 }
 
 p {
