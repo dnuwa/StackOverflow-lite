@@ -201,4 +201,11 @@ h4 {
     h4 {
         font-size: 1%;
     }
+    .container {
+        width: 80%;
+        margin: auto;
+        padding: 4%;
+        font-family: courier;
+        /* border: solid; */
+    }
 }
