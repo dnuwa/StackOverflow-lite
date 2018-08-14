@@ -6,12 +6,9 @@ from models import User
 app = Flask(__name__)
 api = Api(app)
 
-# users = [
-#     {'display_name':'daniel','email': 'daniel@gmail.com','password':'1234', 'id':1 }
-# ]
 
 class SubscriberCollection(Resource):
-    
+
     def post(self):
         data = request.get_json()
         id = data['id']
@@ -28,17 +25,34 @@ class SubscriberCollection(Resource):
         data = User.users
         return {'registered users': data}, 200
 
+
+class SubscriberLogin(Resource):
+    def post(self):
+
+        data = request.get_json()
+        name = data['display_name']
+        password = data['password']
+
+        for user in User.users:
+            if user['display_name'] == name and user['password'] == password:
+                return {'message': 'You are logged in'}, 200
+            else:
+                return {'msg': 'Your username or password is incorrect'}, 401
+
+
 class QuestionCollection(Resource):
     def post(self):
-        return {'msg':'will create a qn'}
+        return {'msg': 'will create a qn'}
 
     def get(self):
-        return {'msg':'All questions'} 
+        return {'msg': 'All questions'}
+
 
 class SingleQnCollection(Resource):
     def get(self, qn_id):
-        return {'msg':'Queried Qn'}
+        return {'msg': 'Queried Qn'}
+
 
 class AnswerCollection(Resource):
     def post(self, qn_id):
-        return {'msg':'post and answer'}
+        return {'msg': 'post and answer'}
