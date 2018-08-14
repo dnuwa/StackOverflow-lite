@@ -6,6 +6,10 @@ from models import User, Qn
 app = Flask(__name__)
 api = Api(app)
 
+def get_qn_by_id(qn_id):
+    for qn in Qn.questions:
+        if qn.get('qn_id') == int(qn_id):
+            return qn
 
 class SubscriberCollection(Resource):
 
@@ -52,13 +56,21 @@ class QuestionCollection(Resource):
 
     def get(self):
         All_Qns = Qn()
-        return {'All Questions': All_Qns.questions}
+        return {'All Questions': All_Qns.questions}, 200
+
+
+        
+            
 
 
 class SingleQnCollection(Resource):
     def get(self, qn_id):
-        return {'msg': 'Queried Qn'}
-
+        question = get_qn_by_id(qn_id)
+        if not question:
+            return {'msg':'question doesnt exist'}, 404
+            
+        return question, 200
+    
 
 class AnswerCollection(Resource):
     def post(self, qn_id):
