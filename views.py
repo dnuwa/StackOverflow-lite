@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
-from models import User
+from models import User, Qn
 
 
 app = Flask(__name__)
@@ -42,10 +42,17 @@ class SubscriberLogin(Resource):
 
 class QuestionCollection(Resource):
     def post(self):
-        return {'msg': 'will create a qn'}
+        data = request.get_json()
+        qn_id = data['qn_id']
+        qn = data['qn']
+        name = data['display_name']
+        new_qn = Qn()
+        new_qn.add_qn(name, qn_id, qn)
+        return {'msg': 'your question has been added'}, 201
 
     def get(self):
-        return {'msg': 'All questions'}
+        All_Qns = Qn()
+        return {'All Questions': All_Qns.questions}
 
 
 class SingleQnCollection(Resource):
