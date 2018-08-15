@@ -41,9 +41,10 @@ class SubscriberLogin(Resource):
 
         for user in User.users:
             if user['display_name'] == name and user['password'] == password:
+                
                 return {'message': 'You are logged in'}, 200
-            else:
-                return {'msg': 'Your username or password is incorrect'}, 401
+            
+            return {'msg': 'Your username or password is incorrect'}, 401
 
 
 class QuestionCollection(Resource):
