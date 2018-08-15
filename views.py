@@ -110,9 +110,22 @@ class AnswerCollection(Resource):
 
         for qn_id in question:
             qn = question['qn']
-        ans_id = data['ans_id']
+        answer_id = data['ans_id']
         ans = data['ans']
 
+        for answer in Answer.answers:
+            if answer['ans_id'] == answer_id:
+                return {'msg': 'This answer id has been already used. Choose another integer value'}, 400                
+
         new_answer = Answer()
-        new_answer.add_an_answer(ans_id, qn, ans)
+        new_answer.add_an_answer(answer_id, qn, ans)
         return Answer.answers, 200
+
+    def get(self, qn_id):
+        All_answers = Answer()
+        return All_answers.answers, 200
+
+class AnswersToAll(Resource):
+    def get(self):
+        All_answers = Answer()
+        return All_answers.answers, 200
