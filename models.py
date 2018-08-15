@@ -26,12 +26,12 @@ class Qn:
         self.question['name'] = name
         self.question['qn_id'] = int(qn_id)
         self.question['qn'] = qn
-        
+
         self.questions.append(self.question)
 
 
 class Answer:
-    answers = []
+    answers = [ {"ans_id": 1,"qn": "what is a datastructure","ans": "dictionaries"} ]
 
     def __init__(self):
         self.answer = {}

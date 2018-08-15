@@ -68,7 +68,7 @@ class QuestionCollection(Resource):
         if (not data or
             "qn_id" not in data or
                 "qn" not in data or
-                     "display_name" in data):
+                     "display_name" not in data):
             return {"error": "You have missed out some info, check the keys too"}, 400
 
         query_id = data['qn_id']
