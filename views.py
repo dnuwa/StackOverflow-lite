@@ -45,14 +45,20 @@ class SubscriberLogin(Resource):
     def post(self):
 
         data = request.get_json()
+        if (not data or
+            "password" not in data or
+                "display_name" not in data):
+            return {"error": "You have missed out some info, check the keys too"}, 400
+
         name = data['display_name']
         password = data['password']
 
         for user in User.users:
+            
             if user['display_name'] == name and user['password'] == password:
-
-                return {'message': 'You are logged in'}, 200
-
+                return {'msg': 'You are logged in as {}'.format(name)}, 200
+            
+        else:
             return {'msg': 'Your username or password is incorrect'}, 401
 
 
