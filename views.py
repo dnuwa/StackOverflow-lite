@@ -4,7 +4,7 @@ from models import User, Qn, Answer
 
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, prefix="/api/v1")
 
 
 def get_qn_by_id(qn_id):
@@ -17,15 +17,24 @@ class SubscriberCollection(Resource):
 
     def post(self):
         data = request.get_json()
-        id = data['id']
+        if (not data or
+            "password" not in data or
+            "display_name" not in data or
+                "email" not in data):
+            return {"error": "You have missed out some info, check the keys too"}, 400
+
         display_name = data['display_name']
         password = data['password']
-        # hashed_password = generate_password_hash(
-        #     data['password'], method='sha256')
         email = data['email']
-        new_user = User()
-        new_user.signup(display_name, email, password, id)
-        return {'message': 'A new user has been added'}, 201
+
+        for user in User.users:
+            if user['display_name'] == display_name or user['email'] == email:
+                return {'msg': 'This account already exists'}, 400
+        else:
+
+            new_user = User()
+            new_user.signup(display_name, email, password)
+            return {'message': 'you have signed up as {}'.format(display_name)}, 201
 
     def get(self):
         data = User.users
@@ -41,9 +50,9 @@ class SubscriberLogin(Resource):
 
         for user in User.users:
             if user['display_name'] == name and user['password'] == password:
-                
+
                 return {'message': 'You are logged in'}, 200
-            
+
             return {'msg': 'Your username or password is incorrect'}, 401
 
 
