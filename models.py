@@ -3,7 +3,7 @@ class User:
         {'display_name': 'daniel', 'email': 'daniel@gmail.com', 'password': '1234', 'id': 1}, {
             'display_name': 'jose', 'email': 'daniel@gmail.com', 'password': '1234', 'id': 2}
     ]
-    
+
     def __init__(self):
         self.new_user = {}
 
@@ -22,8 +22,22 @@ class Qn:
     def __init__(self):
         self.question = {}
 
-    def add_qn(self, name, qn_id, qn ):
+    def add_qn(self, name, qn_id, qn):
         self.question['qn_id'] = int(qn_id)
         self.question['qn'] = qn
         self.question['name'] = name
         self.questions.append(self.question)
+
+
+class Answer:
+    answers = []
+
+    def __init__(self):
+        self.answer = {}
+
+    def add_an_answer(self, ans_id, qn, ans):
+        
+        self.answer['ans_id'] = int(ans_id)
+        self.answer['qn'] = qn
+        self.answer['ans'] = ans
+        self.answers.append(self.answer)

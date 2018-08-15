@@ -1,15 +1,17 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
-from models import User, Qn
+from models import User, Qn, Answer
 
 
 app = Flask(__name__)
 api = Api(app)
 
+
 def get_qn_by_id(qn_id):
     for qn in Qn.questions:
         if qn.get('qn_id') == int(qn_id):
             return qn
+
 
 class SubscriberCollection(Resource):
 
@@ -59,19 +61,27 @@ class QuestionCollection(Resource):
         return {'All Questions': All_Qns.questions}, 200
 
 
-        
-            
-
-
 class SingleQnCollection(Resource):
     def get(self, qn_id):
         question = get_qn_by_id(qn_id)
         if not question:
-            return {'msg':'question doesnt exist'}, 404
-            
+            return {'msg': 'question doesnt exist'}, 404
+
         return question, 200
-    
+
 
 class AnswerCollection(Resource):
     def post(self, qn_id):
-        return {'msg': 'post and answer'}
+        data = request.get_json()
+        question = get_qn_by_id(qn_id)
+        if not question:
+            return {'msg': 'question doesnt exist'}, 404
+
+        for qn_id in question:
+            qn = question['qn']
+        ans_id = data['ans_id']
+        ans = data['ans']
+
+        new_answer = Answer()
+        new_answer.add_an_answer(ans_id, qn, ans)
+        return Answer.answers, 200
