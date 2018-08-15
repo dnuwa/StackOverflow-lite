@@ -17,15 +17,16 @@ class User:
 
 class Qn:
     questions = [
-        {'qn_id': 1, 'qn': 'what is a datastructure', 'display_name': 'daniel'}]
+        {'display_name': 'daniel', 'qn_id': 1, 'qn': 'what is a datastructure'}]
 
     def __init__(self):
         self.question = {}
 
     def add_qn(self, name, qn_id, qn):
+        self.question['name'] = name
         self.question['qn_id'] = int(qn_id)
         self.question['qn'] = qn
-        self.question['name'] = name
+        
         self.questions.append(self.question)
 
 

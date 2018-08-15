@@ -54,10 +54,10 @@ class SubscriberLogin(Resource):
         password = data['password']
 
         for user in User.users:
-            
+
             if user['display_name'] == name and user['password'] == password:
                 return {'msg': 'You are logged in as {}'.format(name)}, 200
-            
+
         else:
             return {'msg': 'Your username or password is incorrect'}, 401
 
@@ -65,12 +65,27 @@ class SubscriberLogin(Resource):
 class QuestionCollection(Resource):
     def post(self):
         data = request.get_json()
-        qn_id = data['qn_id']
+        if (not data or
+            "qn_id" not in data or
+                "qn" not in data or
+                     "display_name" in data):
+            return {"error": "You have missed out some info, check the keys too"}, 400
+
+        query_id = data['qn_id']
         qn = data['qn']
         name = data['display_name']
-        new_qn = Qn()
-        new_qn.add_qn(name, qn_id, qn)
-        return {'msg': 'your question has been added'}, 201
+
+        for user in User.users:
+            if user['display_name'] == name:
+                for query in Qn.questions:
+                    if query['qn_id'] == query_id:
+                        return {'msg': 'This qn id has been already used. Choose another integer value'}, 400
+
+                new_qn = Qn()
+                new_qn.add_qn(name, query_id, qn)
+                return {'msg': 'your question has been added'}, 201
+
+        return {'msg': 'Signup to post a question'}, 400
 
     def get(self):
         All_Qns = Qn()
