@@ -1,7 +1,7 @@
 import unittest
 import json
-from views import api, app
-from models import User, Qn, Answer
+from app.views import api, app
+from app.models import User, Qn, Answer
 from run import api
 
 

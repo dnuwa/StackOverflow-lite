@@ -1,4 +1,4 @@
-from views import (app, api, SubscriberCollection, SubscriberLogin,
+from app.views import (app, api, SubscriberCollection, SubscriberLogin,
                    QuestionCollection, SingleQnCollection, AnswerCollection, AnswersToAll)
 
 
