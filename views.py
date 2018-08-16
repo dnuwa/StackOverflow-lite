@@ -34,7 +34,7 @@ class SubscriberCollection(Resource):
 
             new_user = User()
             new_user.signup(display_name, email, password)
-            return {'message': 'you have signed up as {}'.format(display_name)}, 201
+            return {'msg': 'you have signed up as {}'.format(display_name)}, 201
 
     def get(self):
         data = User.users
@@ -68,7 +68,7 @@ class QuestionCollection(Resource):
         if (not data or
             "qn_id" not in data or
                 "qn" not in data or
-                     "display_name" not in data):
+                "display_name" not in data):
             return {"error": "You have missed out some info, check the keys too"}, 400
 
         query_id = data['qn_id']
@@ -115,15 +115,23 @@ class AnswerCollection(Resource):
 
         for answer in Answer.answers:
             if answer['ans_id'] == answer_id:
-                return {'msg': 'This answer id has been already used. Choose another integer value'}, 400                
+                return {'msg': 'This answer id has been already used. Choose another integer value'}, 400
 
         new_answer = Answer()
         new_answer.add_an_answer(answer_id, qn, ans)
         return Answer.answers, 200
 
-    def get(self, qn_id):
-        All_answers = Answer()
-        return All_answers.answers, 200
+    # def get(self, qn_id):
+    #     All_answers = Answer()
+    #     answers =All_answers.answers
+    #     question = get_qn_by_id(qn_id)
+    #     if not question:
+    #         return {'msg': 'question doesnt exist'}, 404
+
+    #     for qn_id in question:
+    #         for ans in answers:
+    #             return All_answers.answers, 200
+
 
 class AnswersToAll(Resource):
     def get(self):

@@ -2,7 +2,7 @@ import unittest
 import json
 from views import api, app
 from models import User, Qn, Answer
-from run import *
+from run import api
 
 
 class TestStackOverFlowliteApi(unittest.TestCase):
@@ -35,20 +35,21 @@ class TestStackOverFlowliteApi(unittest.TestCase):
             "qn": "is a string a data type?",
             "display_name": "daniel"
         }
-        self.qn2 = {"qn": "is a string a data type?","display_name": "daniel"
-        }
+        self.qn2 = {"qn": "is a string a data type?", "display_name": "daniel"}
 
-        self.qn3 = {'display_name': 'daniel', 'qn_id': 1, 'qn': 'what is a datastructure'}
-        self.qn4 = {'display_name': 'johnie', 'qn_id': 4, 'qn': 'what is a computer science'}
+        self.qn3 = {'display_name': 'daniel',
+                    'qn_id': 1, 'qn': 'what is a datastructure'}
+        self.qn4 = {'display_name': 'johnie', 'qn_id': 4,
+                    'qn': 'what is a computer science'}
 
-        self.answer = {"ans_id": 1,"ans": "dictionaries"}
+        self.answer = {"ans_id": 1, "ans": "dictionaries"}
         self.answer2 = {"ans_id": 2, "ans": "some_text"}
 
     def test_user_sigin_up_successfully(self):
         response = self.app.post(
             '/api/v1/subscribers', content_type="application/json", data=json.dumps(self.user))
         self.assertEqual(
-            response.json, {"message": "you have signed up as godfrey"})
+            response.json, {"msg": "you have signed up as godfrey"})
         self.assertEqual(response.status_code, 201)
 
     def test_user_misses_field_at_signup(self):
@@ -66,7 +67,8 @@ class TestStackOverFlowliteApi(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
 
     def test_getting_all_signedup_users(self):
-        response = self.app.get('/api/v1/subscribers', content_type="application/json")
+        response = self.app.get('/api/v1/subscribers',
+                                content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_user_sigin_successfully(self):
@@ -95,7 +97,7 @@ class TestStackOverFlowliteApi(unittest.TestCase):
         self.assertEqual(
             response.json, {"msg": "This qn id has been already used. Choose another integer value"})
         self.assertEqual(response.status_code, 400)
-    
+
     def test_user_posting_not_signed_up(self):
         response = self.app.post(
             '/api/v1/questions', content_type="application/json", data=json.dumps(self.qn4))
@@ -103,39 +105,36 @@ class TestStackOverFlowliteApi(unittest.TestCase):
             response.json, {"msg": "Signup to post a question"})
         self.assertEqual(response.status_code, 400)
 
-    def test_get_all_question(self):        
-        response = self.app.get('/api/v1/questions', content_type="application/json")
+    def test_get_all_question(self):
+        response = self.app.get('/api/v1/questions',
+                                content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_get_qn_by_id(self):
-        response = self.app.get('/api/v1/questions/1', content_type="application/json")
+        response = self.app.get('/api/v1/questions/1',
+                                content_type="application/json")
         self.assertEqual(response.status_code, 200)
 
     def test_answer_to_non_existing_qn_id(self):
         response = self.app.post(
-            '/api/v1/20/ans', content_type="application/json", data=json.dumps(self.answer))
+            '/api/v1/20/answers', content_type="application/json", data=json.dumps(self.answer))
         self.assertEqual(
             response.json, {"msg": "question doesnt exist"})
         self.assertEqual(response.status_code, 404)
 
     def test_answer_with_taken_id(self):
         response = self.app.post(
-            '/api/v1/1/ans', content_type="application/json", data=json.dumps(self.answer))
+            '/api/v1/1/answers', content_type="application/json", data=json.dumps(self.answer))
         self.assertEqual(
             response.json, {"msg": "This answer id has been already used. Choose another integer value"})
         self.assertEqual(response.status_code, 400)
 
     def test_answer_successfully(self):
         response = self.app.post(
-            '/api/v1/1/ans', content_type="application/json", data=json.dumps(self.answer2))
+            '/api/v1/1/answers', content_type="application/json", data=json.dumps(self.answer2))
         self.assertEqual(response.status_code, 200)
 
     def test_get_all_answers(self):
         response = self.app.get(
             '/api/v1/answers', content_type="application/json")
         self.assertEqual(response.status_code, 200)
-        
-        
-        
-        
-             
