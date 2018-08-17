@@ -15,5 +15,28 @@ StackOverflow-lite is a platform where people can ask questions and provide answ
 
 - clone https://github.com/dnuwa/StackOverflow-lite.git to your computer
 
+## Installing and runing the app locally
+   - Download project
+   Clone the project to your local computer
+   
+   - Prepare the environment to run the application
+   pip install virtualenv or virtualenv enviroment_name
+   cd enviroment_name/scripts/activate | this activates the virtual environment
+   
+   - Install packages in the requirements.txt
+   pip install -r requirements.txt
+
+   - run tha app by typing the command python run.py
+   - to checkout test coverage, run the code nosetests --with-coverage 
+
 ## This Platform is served by  
  - git-pages [GitHub Pages](https://dnuwa.github.io/StackOverflow-lite/UI/).
+
+ - Heroku [Heroku](https://stackoverflow-.herokuapp.com).
+   - API end points
+      - retrieve all users [Users](https://stackoverflow-.herokuapp.com/api/v1/subscribers)
+      - retrieve all Questions [Questions](https://stackoverflow-.herokuapp.com/api/v1/questions)
+      - retrieve all answers [Answers](https://stackoverflow-.herokuapp.com/api/v1/answers)
+      - retieve a question by id [Questions/<int:qn_id>](https://stackoverflow-.herokuapp.com/api/v1/questions/1)
+      - post an answers to a particular qn [<int:qn_id>/answers](https://stackoverflow-.herokuapp.com/api/v1/1/answers)
+      - login a user [Users](https://stackoverflow-.herokuapp.com/api/v1/login)
