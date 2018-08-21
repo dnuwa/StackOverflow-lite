@@ -25,6 +25,8 @@ class TestStackOverFlowliteApi(unittest.TestCase):
 
         self.answer = {"ans_id": 1, "ans": "dictionaries"}
         self.answer2 = {"ans_id": 2, "ans": "some_text"}
+        self.answer3 = { "ans": "some_text"}
+        self.answer4 = { "ans_id":3, "ans": "some_text"}
 
     def test_posting_a_qn(self):
         response = self.app.post(
@@ -83,3 +85,17 @@ class TestStackOverFlowliteApi(unittest.TestCase):
         response = self.app.get(
             '/api/v1/answers', content_type="application/json")
         self.assertEqual(response.status_code, 200)
+
+    def test_answer_with_empty_field(self):
+        response = self.app.post(
+            '/api/v1/1/answers', content_type="application/json", data=json.dumps(self.answer3))
+        self.assertEqual(response.status_code, 400)
+        self.assertRaises(ValueError)
+
+    def test_data_contains_user_input(self):
+        response = self.app.post(
+            '/api/v1/1/answers', content_type="application/json", data=json.dumps(self.answer4))
+        data = json.loads(response.data.decode())
+        self.assertIn('msg', data)
+
+    
