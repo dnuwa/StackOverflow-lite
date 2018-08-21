@@ -16,28 +16,27 @@ def get_qn_by_id(qn_id):
 class SubscriberCollection(Resource):
 
     def post(self):
-        data = request.get_json()
-        if (not data or
-            "password" not in data or
-            "display_name" not in data or
-                "email" not in data):
+        user_data = request.get_json()
+        try:
+            display_name = user_data['display_name'].strip()
+            password = user_data['password'].strip()
+            email = user_data['email'].strip()
+
+            if display_name == "" or password == "":
+                return {'error': 'ensure all feilds are field correctlty'}, 400
+
+            for user in User.users:
+                if user['display_name'] == display_name or user['email'] == email:
+                    return {'msg': 'This account already exists'}, 400
+
+                else:
+
+                    new_user = User()
+                    new_user.signup(display_name, email, password)
+                    return {'msg': 'you have signed up as {}'.format(display_name)}, 201
+
+        except:
             return {"error": "You have missed out some info, check the keys too"}, 400
-
-        display_name = data['display_name'].strip()
-        password = data['password'].strip()
-        email = data['email'].strip()
-
-        if display_name == "" or password == "":
-            return {'error': 'ensure all feilds are field correctlty'}, 400
-
-        for user in User.users:
-            if user['display_name'] == display_name or user['email'] == email:
-                return {'msg': 'This account already exists'}, 400
-        else:
-
-            new_user = User()
-            new_user.signup(display_name, email, password)
-            return {'msg': 'you have signed up as {}'.format(display_name)}, 201
 
     def get(self):
         data = User.users
@@ -67,34 +66,33 @@ class SubscriberLogin(Resource):
 
 class QuestionCollection(Resource):
     def post(self):
-        data = request.get_json()
-        if (not data or
-            "qn_id" not in data or
-                "qn" not in data or
-                "display_name" not in data):
+        try:
+
+            data = request.get_json()
+
+            query_id = data['qn_id']
+            qn = data['qn'].strip()
+            name = data['display_name'].strip()
+
+            if (not isinstance(query_id, int)) and qn == "":
+                return {'error': 'question field cant be empty'}, 400
+
+            for user in User.users:
+                if user['display_name'] == name:
+                    for query in Qn.questions:
+                        if query['qn_id'] == int(query_id):
+                            return {'msg': 'This qn id has been already used. Choose another integer value'}, 400
+
+                    new_qn = Qn()
+                    new_qn.add_qn(name, query_id, qn)
+                    return {'msg': 'your question has been added'}, 201
+
+            return {'msg': 'Signup to post a question'}, 400
+        except Exception as e:
+            return {'error': str(e)+', qn_id should be integer'}, 400
+
+        except:
             return {"error": "You have missed out some info, check the keys too"}, 400
-
-        query_id = data['qn_id']
-        qn = data['qn'].strip()
-        name = data['display_name'].strip()
-
-        if not isinstance(query_id, int):
-            return {'error': 'qn_id should be integer'}, 400
-
-        if qn == "":
-            return {'error': 'question field cant be empty'}, 400
-
-        for user in User.users:
-            if user['display_name'] == name:
-                for query in Qn.questions:
-                    if query['qn_id'] == query_id:
-                        return {'msg': 'This qn id has been already used. Choose another integer value'}, 400
-
-                new_qn = Qn()
-                new_qn.add_qn(name, query_id, qn)
-                return {'msg': 'your question has been added'}, 201
-
-        return {'msg': 'Signup to post a question'}, 400
 
     def get(self):
         All_Qns = Qn()
@@ -120,36 +118,33 @@ class AnswerCollection(Resource):
     new_list = []
 
     def post(self, qn_id):
-        data = request.get_json()
-        question = get_qn_by_id(qn_id)
-        if not question:
-            return {'msg': 'question doesnt exist'}, 404
+        try:
+            data = request.get_json()
+            question = get_qn_by_id(qn_id)
 
-        if (not data or
-            "ans_id" not in data or
-                "ans" not in data):
-            return {"error": "You have missed out some info, check the keys too"}, 400
+            for qn_id in question:
+                qn = question['qn']
+                qn_identity = question['qn_id']
 
-        for qn_id in question:
-            qn = question['qn']
-            qn_identity = question['qn_id']
+            answer_id = data['ans_id']
+            ans = data['ans'].strip()
 
-        answer_id = data['ans_id']
-        ans = data['ans'].strip()
+            if not isinstance(answer_id, int):
+                return {'error': 'answer_id should be integer'}, 400
 
-        if not isinstance(answer_id, int):
-            return {'error': 'answer_id should be integer'}, 400
+            if ans == "":
+                return {'error': 'answer field cant be empty'}, 400
 
-        if ans == "":
-            return {'error': 'answer field cant be empty'}, 400
+            for answer in Answer.answers:
+                if answer['ans_id'] == answer_id:
+                    return {'msg': 'This answer id has been already used. Choose another integer value'}, 400
 
-        for answer in Answer.answers:
-            if answer['ans_id'] == answer_id:
-                return {'msg': 'This answer id has been already used. Choose another integer value'}, 400
+            new_answer = Answer()
+            new_answer.add_an_answer(answer_id, qn_identity, qn, ans)
+            return {'msg': 'an answers has been added successfully'}, 200
 
-        new_answer = Answer()
-        new_answer.add_an_answer(answer_id, qn_identity, qn, ans)
-        return {'msg': 'an answers has been added successfully'}, 200
+        except Exception as e:
+            return {'error': str(e)+', You have missed out some info, check the keys too'}, 400
 
     def get(self, qn_id):
         self.new_list.clear()
