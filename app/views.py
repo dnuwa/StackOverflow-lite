@@ -27,8 +27,8 @@ class SubscriberCollection(Resource):
         password = data['password'].strip()
         email = data['email'].strip()
 
-        if display_name =="" or password =="":
-            return {'error':'ensure all feilds are field correctlty'}, 400
+        if display_name == "" or password == "":
+            return {'error': 'ensure all feilds are field correctlty'}, 400
 
         for user in User.users:
             if user['display_name'] == display_name or user['email'] == email:
