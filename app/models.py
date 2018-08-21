@@ -31,14 +31,16 @@ class Qn:
 
 
 class Answer:
-    answers = [ {"ans_id": 1,"qn": "what is a datastructure","ans": "dictionaries"} ]
+    new_list = None
+    answers = [ {"ans_id": 1, "qn_id":1, "qn": "what is a datastructure","ans": "dictionaries"} ]
 
     def __init__(self):
         self.answer = {}
 
-    def add_an_answer(self, ans_id, qn, ans):
+    def add_an_answer(self, ans_id, qn_id, qn, ans):
 
         self.answer['ans_id'] = int(ans_id)
+        self.answer['qn_id'] = qn_id
         self.answer['qn'] = qn
         self.answer['ans'] = ans
         self.answers.append(self.answer)

@@ -102,14 +102,17 @@ class SingleQnCollection(Resource):
 
 
 class AnswerCollection(Resource):
+    new_list = []
     def post(self, qn_id):
         data = request.get_json()
         question = get_qn_by_id(qn_id)
         if not question:
             return {'msg': 'question doesnt exist'}, 404
 
-        for qn_id in question:
+        for qn_id in question:            
             qn = question['qn']
+            qn_identity = question['qn_id']
+  
         answer_id = data['ans_id']
         ans = data['ans']
 
@@ -118,20 +121,22 @@ class AnswerCollection(Resource):
                 return {'msg': 'This answer id has been already used. Choose another integer value'}, 400
 
         new_answer = Answer()
-        new_answer.add_an_answer(answer_id, qn, ans)
+        new_answer.add_an_answer(answer_id, qn_identity, qn, ans)
         return Answer.answers, 200
 
-    # def get(self, qn_id):
-    #     All_answers = Answer()
-    #     answers =All_answers.answers
-    #     question = get_qn_by_id(qn_id)
-    #     if not question:
-    #         return {'msg': 'question doesnt exist'}, 404
+    def get(self, qn_id):
+        self.new_list.clear()
+  
+        question = get_qn_by_id(qn_id)
+        if not question:
+            return {'msg': 'question doesnt exist'}, 404
 
-    #     for qn_id in question:
-    #         for ans in answers:
-    #             return All_answers.answers, 200
-
+        for answer in Answer.answers:
+            if answer['qn_id'] == qn_id:
+                self.new_list.append(answer)
+        
+        # print (self.new_list)
+        return  {'answers': self.new_list}, 200
 
 class AnswersToAll(Resource):
     def get(self):
