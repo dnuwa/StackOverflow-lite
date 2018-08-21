@@ -36,8 +36,6 @@ class TestStackOverFlowliteApi(unittest.TestCase):
     def test_posting_a_qn_missing_field(self):
         response = self.app.post(
             '/api/v1/questions', content_type="application/json", data=json.dumps(self.qn2))
-        self.assertEqual(
-            response.json, {"error": "You have missed out some info, check the keys too"})
         self.assertEqual(response.status_code, 400)
 
     def test_qnid_taken_already(self):
@@ -67,9 +65,7 @@ class TestStackOverFlowliteApi(unittest.TestCase):
     def test_answer_to_non_existing_qn_id(self):
         response = self.app.post(
             '/api/v1/20/answers', content_type="application/json", data=json.dumps(self.answer))
-        self.assertEqual(
-            response.json, {"msg": "question doesnt exist"})
-        self.assertEqual(response.status_code, 404)
+        self.assertEqual(response.status_code, 400)
 
     def test_answer_with_taken_id(self):
         response = self.app.post(
