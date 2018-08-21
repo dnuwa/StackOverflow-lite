@@ -23,9 +23,12 @@ class SubscriberCollection(Resource):
                 "email" not in data):
             return {"error": "You have missed out some info, check the keys too"}, 400
 
-        display_name = data['display_name']
-        password = data['password']
-        email = data['email']
+        display_name = data['display_name'].strip()
+        password = data['password'].strip()
+        email = data['email'].strip()
+
+        if display_name =="" or password =="":
+            return {'error':'ensure all feilds are field correctlty'}, 400
 
         for user in User.users:
             if user['display_name'] == display_name or user['email'] == email:
@@ -50,8 +53,8 @@ class SubscriberLogin(Resource):
                 "display_name" not in data):
             return {"error": "You have missed out some info, check the keys too"}, 400
 
-        name = data['display_name']
-        password = data['password']
+        name = data['display_name'].strip()
+        password = data['password'].strip()
 
         for user in User.users:
 
@@ -72,8 +75,14 @@ class QuestionCollection(Resource):
             return {"error": "You have missed out some info, check the keys too"}, 400
 
         query_id = data['qn_id']
-        qn = data['qn']
-        name = data['display_name']
+        qn = data['qn'].strip()
+        name = data['display_name'].strip()
+
+        if not isinstance(query_id, int):
+            return {'error': 'qn_id should be integer'}, 400
+
+        if qn == "":
+            return {'error': 'question field cant be empty'}, 400
 
         for user in User.users:
             if user['display_name'] == name:
@@ -94,27 +103,45 @@ class QuestionCollection(Resource):
 
 class SingleQnCollection(Resource):
     def get(self, qn_id):
-        question = get_qn_by_id(qn_id)
-        if not question:
+        try:
+            qn_identity = int(qn_id)
+
+            for qn in Qn.questions:
+                if qn['qn_id'] == qn_identity:
+                    return qn, 200
+
             return {'msg': 'question doesnt exist'}, 404
 
-        return question, 200
+        except Exception as e:
+            return {'error': str(e)+",qn_id should be an integer"}, 404
 
 
 class AnswerCollection(Resource):
     new_list = []
+
     def post(self, qn_id):
         data = request.get_json()
         question = get_qn_by_id(qn_id)
         if not question:
             return {'msg': 'question doesnt exist'}, 404
 
-        for qn_id in question:            
+        if (not data or
+            "ans_id" not in data or
+                "ans" not in data):
+            return {"error": "You have missed out some info, check the keys too"}, 400
+
+        for qn_id in question:
             qn = question['qn']
             qn_identity = question['qn_id']
-  
+
         answer_id = data['ans_id']
-        ans = data['ans']
+        ans = data['ans'].strip()
+
+        if not isinstance(answer_id, int):
+            return {'error': 'answer_id should be integer'}, 400
+
+        if ans == "":
+            return {'error': 'answer field cant be empty'}, 400
 
         for answer in Answer.answers:
             if answer['ans_id'] == answer_id:
@@ -122,11 +149,11 @@ class AnswerCollection(Resource):
 
         new_answer = Answer()
         new_answer.add_an_answer(answer_id, qn_identity, qn, ans)
-        return Answer.answers, 200
+        return {'msg': 'an answers has been added successfully'}, 200
 
     def get(self, qn_id):
         self.new_list.clear()
-  
+
         question = get_qn_by_id(qn_id)
         if not question:
             return {'msg': 'question doesnt exist'}, 404
@@ -134,9 +161,10 @@ class AnswerCollection(Resource):
         for answer in Answer.answers:
             if answer['qn_id'] == qn_id:
                 self.new_list.append(answer)
-        
+
         # print (self.new_list)
-        return  {'answers': self.new_list}, 200
+        return {'answers': self.new_list}, 200
+
 
 class AnswersToAll(Resource):
     def get(self):
