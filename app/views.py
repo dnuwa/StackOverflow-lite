@@ -28,7 +28,6 @@ class SubscriberCollection(Resource):
             for user in User.users:
                 if user['display_name'] == display_name or user['email'] == email:
                     return {'msg': 'This account already exists'}, 400
-
                 
             new_user = User()
             new_user.signup(display_name, email, password)
