@@ -29,11 +29,10 @@ class SubscriberCollection(Resource):
                 if user['display_name'] == display_name or user['email'] == email:
                     return {'msg': 'This account already exists'}, 400
 
-                else:
-
-                    new_user = User()
-                    new_user.signup(display_name, email, password)
-                    return {'msg': 'you have signed up as {}'.format(display_name)}, 201
+                
+            new_user = User()
+            new_user.signup(display_name, email, password)
+            return {'msg': 'you have signed up as {}'.format(display_name)}, 201
 
         except:
             return {"error": "You have missed out some info, check the keys too"}, 400
