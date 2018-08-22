@@ -30,7 +30,7 @@ class SubscriberCollection(Resource):
                     return {'msg': 'This account already exists'}, 400
 
                 else:
-
+    
                     new_user = User()
                     new_user.signup(display_name, email, password)
                     return {'msg': 'you have signed up as {}'.format(display_name)}, 201
