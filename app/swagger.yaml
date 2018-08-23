@@ -1,0 +1,30 @@
+tags:
+  - Users
+summery: "Returns all subscribers"
+description: "Returns all subscribers"
+
+produces:
+- "application/json"
+
+responses:
+  200:
+    description: "Returns all registered user"
+    schema:
+      $ref: '#/definitions/User'
+    properties:       
+ 
+definitions:
+  User:
+    type: "object"
+    properties:
+      
+      display_name:
+        type: "string"
+
+      email:
+        type: "string"
+
+      password:
+        type: "string"
+        
+  

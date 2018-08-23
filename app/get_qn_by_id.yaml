@@ -1,0 +1,27 @@
+tags:
+  - "Question"
+  
+summery: "Returns a one question whose id has be provided"
+description: "Returns a one question whose id has be provided"
+
+produces:
+- "application/json"
+
+parameters:
+  - in: "path"
+    name: "qn_id"
+    required: true
+    description: "The ID of the question, try 1!"
+    type: "integer"
+responses:
+  200:
+    description: "The question data"
+    schema:
+      id: "Question"
+      properties:
+        display_name:
+          type: "string"
+        qn_id:
+          type: "integer"
+        qn:
+          type: "string"

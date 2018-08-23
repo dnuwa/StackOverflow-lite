@@ -1,0 +1,16 @@
+tags:
+  - Answers
+
+summary: "Retrieves all questions and their answers"
+description: "Retrieves all questions and their answers"
+
+produces:
+- "application/json"
+
+responses:
+  200:
+    description: "returns all questions and their answers"
+    schema:
+      $ref: '#/definitions/Question'
+    properties:       
+          

@@ -1,0 +1,30 @@
+tags:
+  - Questions
+
+summery: "This returns all Questions in a list"
+description: "This returns all Questions in a list"
+
+produces:
+- "application/json"
+
+responses:
+  200:
+    description: "Returns all questions in the list"
+    schema:
+      $ref: '#/definitions/Question'
+    properties:       
+
+definitions:         
+  
+  Question:
+    type: "object"
+    properties:
+    
+      display_name:
+        type: "string"
+        
+      qn_id:
+        type: "integer"
+
+      qn:
+        type: "string"

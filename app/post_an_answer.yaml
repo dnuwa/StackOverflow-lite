@@ -1,0 +1,39 @@
+tags:
+- "Answer"
+summary: "Post an answer to a question"
+description: "Post an answer to a question whose id should be specified"
+
+consumes:
+- "application/json"
+
+produces:
+- "application/json"
+
+parameters:
+- in: "path"
+  name: "qn_id"
+  description: "qn_id that user wants to answer"
+  required: true
+  schema:
+    $ref: "#/definitions/Answer"
+
+- in: "body"
+  name: "body"
+  description: "an ans_id and the answer itself"
+  required: true
+  schema:
+    $ref: "#/definitions/Answer"
+responses:
+  405:
+    description: "Invalid input"
+
+definitions:
+  Answer:
+    type: "object"
+    properties:
+      
+      ans_id:
+        type: "integer"
+
+      ans:
+        type: "string"

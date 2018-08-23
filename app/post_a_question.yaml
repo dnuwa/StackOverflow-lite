@@ -1,0 +1,41 @@
+tags:
+- "Questions"
+summary: "Post questions route"
+description: "The user can post a question"
+
+consumes:
+- "application/json"
+
+produces:
+- "application/json"
+
+parameters:
+- in: "body"
+  name: "body"
+  description: "Question inputs"
+  required: true
+  schema:
+    $ref: "#/definitions/Question"
+responses:
+  405:
+    description: "Invalid input"
+
+  201:
+    description: "question created"
+
+  400:
+    description: "bad request"
+
+definitions:
+  Question:
+    type: "object"
+    properties:
+      
+      display_name:
+        type: "string"
+
+      qn_id:
+        type: "integer"
+
+      qn:
+        type: "string"

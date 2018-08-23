@@ -1,0 +1,37 @@
+tags:
+- "Answer"
+summary: "Retrieves answers to a question"
+description: "This end point returns all the answers to a question whose id has been provided"
+
+produces:
+- "application/json"
+
+parameters:
+- in: "path"
+  name: "qn_id"
+  description: "qn_id"
+  required: true
+  schema:
+    $ref: "#/definitions/Answers"
+
+responses:
+  405:
+    description: "Invalid input"
+
+definitions:
+  Answers:
+    type: "object"
+    properties: 
+
+      ans_id:
+        type: "integer"
+
+      qn_id: 
+        type: "integer" 
+
+      qn:
+        type: "string"   
+
+      ans:
+        type: "string"
+
