@@ -1,8 +1,6 @@
 class User:
-    users = [
-        {'display_name': 'daniel', 'email': 'daniel@gmail.com', 'password': '1234'}, {
-            'display_name': 'jose', 'email': 'daniel@gmail.com', 'password': '1234'}
-    ]
+    #{'display_name': 'daniel', 'email': 'daniel@gmail.com', 'password': '1234'}
+    users = []
 
     def __init__(self):
         self.new_user = {}
@@ -16,8 +14,8 @@ class User:
 
 
 class Qn:
-    questions = [
-        {'display_name': 'daniel', 'qn_id': 1, 'qn': 'what is a datastructure'}]
+    #{'display_name': 'daniel', 'qn_id': 1, 'qn': 'what is a datastructure'}
+    questions = []
 
     def __init__(self):
         self.question = {}
@@ -32,7 +30,8 @@ class Qn:
 
 class Answer:
     new_list = None
-    answers = [ {"ans_id": 1, "qn_id":1, "qn": "what is a datastructure","ans": "dictionaries"} ]
+    #{"ans_id": 1, "qn_id":1, "qn": "what is a datastructure","ans": "dictionaries"} 
+    answers = []
 
     def __init__(self):
         self.answer = {}

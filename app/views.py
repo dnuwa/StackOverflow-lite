@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api
 from app.models import User, Qn, Answer
 from flasgger import Swagger, swag_from
+import re
 
 
 app = Flask(__name__)
@@ -32,6 +33,9 @@ class SubscriberCollection(Resource):
 
             if display_name == "" or password == "":
                 return {'error': 'ensure all feilds are field correctlty'}, 400
+
+            if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+                return {'error': 'Invalid email address'}, 400
 
             for user in User.users:
                 if user['display_name'] == display_name or user['email'] == email:
