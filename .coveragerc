@@ -24,3 +24,13 @@ omit =
     */numbers.py
     */mimetypes.py
     */decimal.py
+    */yaml/*
+    */urllib3/*
+    */requests/*
+    */jsonschema/*
+    */flasgger/*
+    */idna/*
+    */chardet/*
+    */certifi/*
+    */six.py
+    */mistune.py

@@ -1,10 +1,17 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
 from app.models import User, Qn, Answer
+from flasgger import Swagger, swag_from
 
 
 app = Flask(__name__)
+
 api = Api(app, prefix="/api/v1")
+
+app.config['SWAGGER'] = {
+    'title': 'Stackoverflow-Lite',
+}
+Swagger(app)
 
 
 def get_qn_by_id(qn_id):
@@ -14,7 +21,8 @@ def get_qn_by_id(qn_id):
 
 
 class SubscriberCollection(Resource):
-
+    
+    @swag_from('add_user.yml', methods=['POST'])
     def post(self):
         user_data = request.get_json()
         try:
@@ -35,13 +43,17 @@ class SubscriberCollection(Resource):
 
         except:
             return {"error": "You have missed out some info, check the keys too"}, 400
-
+            
+    @swag_from('swagger.yaml', methods=['GET'])
     def get(self):
+        
         data = User.users
         return {'registered users': data}, 200
 
 
 class SubscriberLogin(Resource):
+    
+    @swag_from('login.yml', methods=['POST'])
     def post(self):
 
         data = request.get_json()
@@ -63,6 +75,8 @@ class SubscriberLogin(Resource):
 
 
 class QuestionCollection(Resource):
+    
+    @swag_from('post_a_question.yaml', methods=['POST'])
     def post(self):
         try:
 
@@ -86,18 +100,19 @@ class QuestionCollection(Resource):
                     return {'msg': 'your question has been added'}, 201
 
             return {'msg': 'Signup to post a question'}, 400
-        except Exception as e:
-            return {'error': str(e)+', qn_id should be integer'}, 400
-
+        
         except:
             return {"error": "You have missed out some info, check the keys too"}, 400
 
-    def get(self):
+    @swag_from('get_all_qn.yaml', methods=['GET'])
+    def get(self):        
         All_Qns = Qn()
         return {'All Questions': All_Qns.questions}, 200
 
 
 class SingleQnCollection(Resource):
+    
+    @swag_from('get_qn_by_id.yaml', methods=['GET'])
     def get(self, qn_id):
         try:
             qn_identity = int(qn_id)
@@ -115,6 +130,7 @@ class SingleQnCollection(Resource):
 class AnswerCollection(Resource):
     new_list = []
 
+    @swag_from('post_an_answer.yaml', methods=['POST'])
     def post(self, qn_id):
         try:
             data = request.get_json()
@@ -142,8 +158,9 @@ class AnswerCollection(Resource):
             return {'msg': 'an answers has been added successfully'}, 200
 
         except Exception as e:
-            return {'error': str(e)+', You have missed out some info, check the keys too'}, 400
+            return {'error': str(e)+', Non existing question or missing fields'}, 400
 
+    @swag_from('qetting_answers_to_a_qn.yaml', methods=['GET'])
     def get(self, qn_id):
         self.new_list.clear()
 
@@ -160,6 +177,8 @@ class AnswerCollection(Resource):
 
 
 class AnswersToAll(Resource):
+    
+    @swag_from('qetting_all_qns_and_ans.yaml', methods=['GET'])
     def get(self):
         All_answers = Answer()
         return All_answers.answers, 200
