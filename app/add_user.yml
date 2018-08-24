@@ -1,7 +1,7 @@
 tags:
 - "Users"
-summary: "add a new subscriber"
-description: "this is a POST request to add a new user"
+summary: "Add a new subscriber"
+description: "This is a POST request to add a new user"
 
 consumes:
 - "application/json"
@@ -15,13 +15,16 @@ parameters:
   description: "user details to be added to the list"
   required: true
   schema:
-    $ref: "#/definitions/User"
+    $ref: "#/definitions/Subscriber"
 responses:
   405:
     description: "Invalid input"
 
+  201:
+    description: "Subscriber added successfuly"
+
 definitions:
-  User:
+  Subscriber:
     type: "object"
     properties:
       
