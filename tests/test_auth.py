@@ -44,12 +44,10 @@ class TestStackOverFlowliteUsers(unittest.TestCase):
             response.json, {"error": "You have missed out some info, check the keys too"})
         self.assertEqual(response.status_code, 400)
 
-    def test_user_attempts_signup_with_existing_account(self):
+    def test_user_attempts_signup(self):
         response = self.app.post(
             '/api/v1/subscribers', content_type="application/json", data=json.dumps(self.user_2))
-        self.assertEqual(
-            response.json, {"msg": "This account already exists"})
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 201)
 
     def test_getting_all_signedup_users(self):
         response = self.app.get('/api/v1/subscribers',
@@ -61,5 +59,3 @@ class TestStackOverFlowliteUsers(unittest.TestCase):
             '/api/v1/login', content_type="application/json", data=json.dumps(self.userlogin))
         self.assertEqual(response.json, {"msg": "You are logged in as daniel"})
         self.assertEqual(response.status_code, 200)
-
-    
